@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Md Abu Talha - CSE Student Portfolio</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- New font pairing: Syncopate (Name), Playfair Display (Headings), and Fira Sans (Body) -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Fira+Sans:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Custom styles for a smooth, dark theme with trending purple gradient */
@@ -55,10 +52,10 @@
             background-color: #1e0d29; /* Slightly lighter dark background, blending with purple */
         }
 
-            .card-hover-effect:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 30px rgba(167, 86, 241, 0.2); /* Soft purple glow on hover */
-            }
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(167, 86, 241, 0.2); /* Soft purple glow on hover */
+        }
 
         /* Typing effect for the headline */
         @keyframes typing {
@@ -88,6 +85,7 @@
             white-space: nowrap;
             margin: 0 auto;
             letter-spacing: .1em;
+            /* Animation speed decreased for a smoother look in the given space */
             animation: typing 3.5s steps(40, end) infinite alternate, blink-caret .75s step-end infinite;
         }
 
@@ -116,11 +114,19 @@
         .animated-entry {
             animation: fade-in-up 0.8s ease-out forwards;
         }
+
+        /* FIX: Force the typing text to be contained on extremely small screens */
+        @media (max-width: 480px) {
+            .typing-text {
+                /* Allows the text to fit better on tiny screens without horizontal scroll */
+                font-size: 1.25rem; /* Reduced from 2xl/3xl */
+            }
+        }
     </style>
 </head>
 <body class="selection:bg-accent selection:text-black">
 
-    <!-- CV Download Modal (Custom Message Box) --><div id="cv-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+    <div id="cv-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
         <div class="bg-[#1e0d29] p-8 rounded-xl shadow-2xl w-full max-w-sm border border-accent/30 transform transition-all duration-300 scale-100">
             <div class="text-xl font-bold mb-4 flex items-center accent-color">
                 <i data-lucide="download" class="w-6 h-6 mr-2"></i>
@@ -136,7 +142,7 @@
         </div>
     </div>
 
-    <!-- Navigation Bar --><header class="sticky top-0 z-40 bg-[#100518]/90 backdrop-blur-sm shadow-lg border-b border-accent/10">
+    <header class="sticky top-0 z-40 bg-[#100518]/90 backdrop-blur-sm shadow-lg border-b border-accent/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-2xl font-extrabold accent-color tracking-wide">Md Abu Talha.dev</h1>
             <nav class="hidden md:flex space-x-8 text-sm font-medium">
@@ -149,7 +155,7 @@
                 <i data-lucide="menu" class="w-6 h-6 accent-color"></i>
             </button>
         </div>
-        <!-- Mobile Menu (Hidden by default) --><div id="mobile-menu" class="hidden md:hidden bg-[#1e0d29] border-t border-accent/10 py-2">
+        <div id="mobile-menu" class="hidden md:hidden bg-[#1e0d29] border-t border-accent/10 py-2">
             <a href="#about" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">About</a>
             <a href="#skills" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">Skills</a>
             <a href="#projects" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">Projects</a>
@@ -159,37 +165,38 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <!-- Hero Section - Always visible, no scroll animation needed here --><section id="hero" class="pt-24 pb-32 flex flex-col md:flex-row items-center justify-between min-h-screen">
-            <div class="md:w-3/5 text-center md:text-left">
+        <section id="hero" class="pt-24 pb-32 flex flex-col-reverse md:flex-row items-center justify-between min-h-screen">
+            <div class="md:w-3/5 text-center md:text-left mt-16 md:mt-0">
                 <p class="text-xl text-gray-400 mb-4">Hello, I'm</p>
-                <!-- h2 uses Syncopate now --><h2 class="text-6xl sm:text-7xl font-black mb-4 leading-tight hero-title whitespace-nowrap">Md Abu Talha</h2>
-                <div class="typing-text h-10 md:h-8 mb-8 text-2xl sm:text-3xl font-medium accent-color">
+                <h2 class="text-6xl sm:text-7xl font-black mb-4 leading-tight hero-title whitespace-nowrap">Md Abu Talha</h2>
+                <div class="typing-text h-10 md:h-8 mb-8 text-2xl sm:text-3xl font-medium accent-color max-w-full">
                     A Computer Science & Engineering Student
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                     <a href="https://github.com/talhasourov99/hellotalha/blob/main/cv.pdf"
-                       target="_blank"
-                       class="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-gray-900 bg-accent hover:bg-accent-dark transition duration-300 shadow-xl shadow-accent/30">
+                        target="_blank"
+                        download="Md_Abu_Talha_CV.pdf"
+                        class="w-full sm:w-auto flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-gray-900 bg-accent hover:bg-accent-dark transition duration-300 shadow-xl shadow-accent/30">
                         <i data-lucide="download" class="w-5 h-5 mr-2"></i>
                         Download CV
                     </a>
 
-                    <a href="#projects" class="flex items-center justify-center px-8 py-3 border border-accent text-base font-medium rounded-lg accent-color hover:bg-accent/10 transition duration-300">
+                    <a href="#projects" class="w-full sm:w-auto flex items-center justify-center px-8 py-3 border border-accent text-base font-medium rounded-lg accent-color hover:bg-accent/10 transition duration-300">
                         View Projects
                     </a>
                 </div>
             </div>
-            <div class="md:w-2/5 mt-16 md:mt-0 flex justify-center">
-                <!-- Profile Image container: Replace the 'src' value below with the URL of your professional photo --><div class="w-64 h-64 bg-[#1e0d29] border-4 border-accent rounded-full flex items-center justify-center overflow-hidden shadow-2xl">
+            <div class="md:w-2/5 flex justify-center">
+                <div class="w-64 h-64 bg-[#1e0d29] border-4 border-accent rounded-full flex items-center justify-center overflow-hidden shadow-2xl">
                     <img src="https://raw.githubusercontent.com/talhasourov99/hellotalha/refs/heads/main/3-removebg-preview.png"
-                         alt="Md Abu Talha Profile Picture"
-                         class="w-full h-full object-cover">
+                            alt="Md Abu Talha Profile Picture"
+                            class="w-full h-full object-cover">
                 </div>
             </div>
         </section>
 
-        <!-- About Section - Individual elements will be animated --><section id="about" class="py-24 border-t border-accent/10">
+        <section id="about" class="py-24 border-t border-accent/10">
             <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">About Me</h3>
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="bg-[#1e0d29] p-8 rounded-xl card-hover-effect opacity-0" data-delay="1">
@@ -221,30 +228,30 @@
             </div>
         </section>
 
-        <!-- Skills Section - Individual cards will be animated with a stagger --><section id="skills" class="py-24 border-t border-accent/10">
+        <section id="skills" class="py-24 border-t border-accent/10">
             <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">Technical Skills</h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-                <!-- Skill Card Template 1 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="1">
+                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="1">
                     <i data-lucide="code-square" class="w-8 h-8 accent-color mx-auto mb-2"></i>
                     <p class="font-semibold">Python / C++</p>
                     <span class="text-xs text-gray-400">DSA & Backend</span>
                 </div>
-                <!-- Skill Card Template 2 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="2">
+                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="2">
                     <i data-lucide="server" class="w-8 h-8 accent-color mx-auto mb-2"></i>
                     <p class="font-semibold">Databases</p>
                     <span class="text-xs text-gray-400">SQL, MongoDB</span>
                 </div>
-                <!-- Skill Card Template 3 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="3">
+                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="3">
                     <i data-lucide="layout-grid" class="w-8 h-8 accent-color mx-auto mb-2"></i>
                     <p class="font-semibold">Web Dev</p>
                     <span class="text-xs text-gray-400">React, Next.js</span>
                 </div>
-                <!-- Skill Card Template 4 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="4">
+                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="4">
                     <i data-lucide="git-branch" class="w-8 h-8 accent-color mx-auto mb-2"></i>
                     <p class="font-semibold">DevOps</p>
                     <span class="text-xs text-gray-400">Git, Docker, CI/CD</span>
                 </div>
-                <!-- Skill Card Template 5 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="5">
+                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="5">
                     <i data-lucide="trending-up" class="w-8 h-8 accent-color mx-auto mb-2"></i>
                     <p class="font-semibold">ML/AI</p>
                     <span class="text-xs text-gray-400">TensorFlow, PyTorch</span>
@@ -252,11 +259,11 @@
             </div>
         </section>
 
-        <!-- Projects Section - Individual cards will be animated with a stagger --><section id="projects" class="py-24 border-t border-accent/10">
+        <section id="projects" class="py-24 border-t border-accent/10">
             <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">Featured Projects</h3>
             <div class="grid md:grid-cols-3 gap-8">
 
-                <!-- Project Card 1 --><div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="1">
+                <div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="1">
                     <div>
                         <h4 class="text-xl font-bold accent-color mb-2">E-commerce Backend Service</h4>
                         <p class="text-gray-400 mb-4 text-sm">A robust RESTful API for a scalable e-commerce platform, handling user authentication, product catalog, and order processing.</p>
@@ -278,7 +285,7 @@
                     </div>
                 </div>
 
-                <!-- Project Card 2 --><div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="2">
+                <div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="2">
                     <div>
                         <h4 class="text-xl font-bold accent-color mb-2">Predictive ML Model for Stocks</h4>
                         <p class="text-gray-400 mb-4 text-sm">Developed a time-series model using LSTM networks to forecast short-term stock price movements based on historical data.</p>
@@ -300,7 +307,7 @@
                     </div>
                 </div>
 
-                <!-- Project Card 3 --><div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="3">
+                <div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="3">
                     <div>
                         <h4 class="text-xl font-bold accent-color mb-2">Real-time Chat Application</h4>
                         <p class="text-gray-400 mb-4 text-sm">A single-page application built for instant messaging, featuring real-time updates and user presence indicators using web sockets.</p>
@@ -324,7 +331,7 @@
             </div>
         </section>
 
-        <!-- Contact Section - Individual element will be animated --><section id="contact" class="py-24 border-t border-accent/10">
+        <section id="contact" class="py-24 border-t border-accent/10">
             <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">Get In Touch</h3>
             <div class="bg-[#1e0d29] p-8 md:p-12 rounded-xl max-w-2xl mx-auto card-hover-effect border border-accent/20 opacity-0" data-delay="1">
                 <p class="text-lg text-gray-300 mb-8 text-center">
@@ -351,11 +358,10 @@
 
     </main>
 
-    <!-- Footer --><footer class="mt-20 py-8 border-t border-accent/10 text-center text-gray-500 text-sm">
+    <footer class="mt-20 py-8 border-t border-accent/10 text-center text-gray-500 text-sm">
         <p>Built with <i data-lucide="heart" class="w-4 h-4 inline text-red-500"></i> | &copy; 2025 Md Abu Talha. All Rights Reserved.</p>
     </footer>
 
-    <!-- JavaScript for Mobile Menu, CV Modal, and Scroll Animations -->
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
@@ -438,5 +444,3 @@
 </body>
 
 </html>
-
-
