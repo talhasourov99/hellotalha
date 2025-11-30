@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Md Abu Talha - CSE Student Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- New font pairing: Syncopate (Name), Playfair Display (Headings), and Fira Sans (Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Fira+Sans:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for a smooth, dark theme with trending purple gradient */
+        body {
+            font-family: 'Fira Sans', sans-serif; /* Clean, modern font for body text */
+            background: linear-gradient(135deg, #1f0a2e, #100518); /* Deep purple gradient */
+            color: #c9d1d9; /* Light text color */
+            scroll-behavior: smooth;
+        }
+
+        /* Apply Playfair Display to general headings */
+        h1, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Apply Syncopate specifically to the name (h2) for a unique, high-tech look */
+        h2 {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase; /* Ensure it's always striking */
+        }
+
+
+        /* New Accent color for highlights and buttons (vibrant purple) */
+        .accent-color {
+            color: #a756f1; /* Trending vibrant purple */
+        }
+
+        .bg-accent {
+            background-color: #a756f1;
+        }
+
+        .hover\:bg-accent-dark:hover {
+            background-color: #8c42d3; /* Slightly darker purple for hover */
+        }
+
+        .border-accent {
+            border-color: #a756f1;
+        }
+
+        /* Smooth card transition for projects/skills */
+        .card-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            background-color: #1e0d29; /* Slightly lighter dark background, blending with purple */
+        }
+
+            .card-hover-effect:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(167, 86, 241, 0.2); /* Soft purple glow on hover */
+            }
+
+        /* Typing effect for the headline */
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: #a756f1;
+            }
+            /* Blinking cursor with new accent color */
+        }
+
+        .typing-text {
+            overflow: hidden;
+            border-right: .15em solid #a756f1; /* The typewriter cursor with new accent color */
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .1em;
+            animation: typing 3.5s steps(40, end) infinite alternate, blink-caret .75s step-end infinite;
+        }
+
+        /* Text Gradient for the name */
+        .hero-title {
+            background: linear-gradient(90deg, #ffffff, #a756f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* --- Animation for Scroll-in Effect (Staggered Entry) --- */
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animated-entry {
+            animation: fade-in-up 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="selection:bg-accent selection:text-black">
+
+    <!-- CV Download Modal (Custom Message Box) --><div id="cv-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+        <div class="bg-[#1e0d29] p-8 rounded-xl shadow-2xl w-full max-w-sm border border-accent/30 transform transition-all duration-300 scale-100">
+            <div class="text-xl font-bold mb-4 flex items-center accent-color">
+                <i data-lucide="download" class="w-6 h-6 mr-2"></i>
+                Download Initiated
+            </div>
+            <p class="text-gray-300 mb-6">
+                Thank you for your interest! A mock PDF/text file would be generated here in a real application.
+                For this demo, we'll just confirm the action.
+            </p>
+            <button onclick="closeModal()" class="w-full py-2 bg-accent text-gray-900 font-semibold rounded-lg hover:bg-accent-dark transition duration-200">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation Bar --><header class="sticky top-0 z-40 bg-[#100518]/90 backdrop-blur-sm shadow-lg border-b border-accent/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold accent-color tracking-wide">Md Abu Talha.dev</h1>
+            <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#about" class="hover:accent-color transition duration-150">About</a>
+                <a href="#skills" class="hover:accent-color transition duration-150">Skills</a>
+                <a href="#projects" class="hover:accent-color transition duration-150">Projects</a>
+                <a href="#contact" class="hover:accent-color transition duration-150">Contact</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-[#1e0d29]">
+                <i data-lucide="menu" class="w-6 h-6 accent-color"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu (Hidden by default) --><div id="mobile-menu" class="hidden md:hidden bg-[#1e0d29] border-t border-accent/10 py-2">
+            <a href="#about" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">About</a>
+            <a href="#skills" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">Skills</a>
+            <a href="#projects" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">Projects</a>
+            <a href="#contact" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">Contact</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Hero Section - Always visible, no scroll animation needed here --><section id="hero" class="pt-24 pb-32 flex flex-col md:flex-row items-center justify-between min-h-screen">
+            <div class="md:w-3/5 text-center md:text-left">
+                <p class="text-xl text-gray-400 mb-4">Hello, I'm</p>
+                <!-- h2 uses Syncopate now --><h2 class="text-6xl sm:text-7xl font-black mb-4 leading-tight hero-title whitespace-nowrap">Md Abu Talha</h2>
+                <div class="typing-text h-10 md:h-8 mb-8 text-2xl sm:text-3xl font-medium accent-color">
+                    A Computer Science & Engineering Student
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="E:/portfolio/img/cv.pdf"
+                       target="_blank"
+                       class="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-gray-900 bg-accent hover:bg-accent-dark transition duration-300 shadow-xl shadow-accent/30">
+                        <i data-lucide="download" class="w-5 h-5 mr-2"></i>
+                        Download CV
+                    </a>
+
+                    <a href="#projects" class="flex items-center justify-center px-8 py-3 border border-accent text-base font-medium rounded-lg accent-color hover:bg-accent/10 transition duration-300">
+                        View Projects
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-2/5 mt-16 md:mt-0 flex justify-center">
+                <!-- Profile Image container: Replace the 'src' value below with the URL of your professional photo --><div class="w-64 h-64 bg-[#1e0d29] border-4 border-accent rounded-full flex items-center justify-center overflow-hidden shadow-2xl">
+                    <img src="E:\portfolio\img/3-removebg-preview.png"
+                         alt="Md Abu Talha Profile Picture"
+                         class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section - Individual elements will be animated --><section id="about" class="py-24 border-t border-accent/10">
+            <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">About Me</h3>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="bg-[#1e0d29] p-8 rounded-xl card-hover-effect opacity-0" data-delay="1">
+                    <p class="text-lg leading-relaxed text-gray-300">
+                        I am a highly motivated Computer Science and Engineering student at a reputable university, specializing in scalable software development and efficient algorithm design. My academic journey has equipped me with a strong foundation in Data Structures, Operating Systems, and Database Management.
+                    </p>
+                    <p class="text-lg leading-relaxed text-gray-300 mt-4">
+                        I thrive on solving complex technical challenges and am constantly exploring the intersection of modern web technologies and machine learning. My goal is to leverage my skills to build impactful, user-centric solutions. I am actively looking for internship opportunities in Software Development or Data Engineering.
+                    </p>
+                </div>
+                <div class="space-y-6 text-gray-300 opacity-0" data-delay="2">
+                    <div class="flex items-center">
+                        <i data-lucide="graduation-cap" class="w-6 h-6 mr-3 accent-color"></i>
+                        <span class="font-semibold">University:</span>International University of Business Agriculture and Technology.
+                    </div>
+                    <div class="flex items-center">
+                        <i data-lucide="clock" class="w-6 h-6 mr-3 accent-color"></i>
+                        <span class="font-semibold">Expected Graduation:</span> April 2027
+                    </div>
+                    <div class="flex items-center">
+                        <i data-lucide="mail" class="w-6 h-6 mr-3 accent-color"></i>
+                        <span class="font-semibold">Email:</span> 23103093@iubat.edu
+                    </div>
+                    <div class="flex items-center">
+                        <i data-lucide="map-pin" class="w-6 h-6 mr-3 accent-color"></i>
+                        <span class="font-semibold">Location:</span> Dhaka,Bangladesh.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section - Individual cards will be animated with a stagger --><section id="skills" class="py-24 border-t border-accent/10">
+            <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">Technical Skills</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+                <!-- Skill Card Template 1 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="1">
+                    <i data-lucide="code-square" class="w-8 h-8 accent-color mx-auto mb-2"></i>
+                    <p class="font-semibold">Python / C++</p>
+                    <span class="text-xs text-gray-400">DSA & Backend</span>
+                </div>
+                <!-- Skill Card Template 2 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="2">
+                    <i data-lucide="server" class="w-8 h-8 accent-color mx-auto mb-2"></i>
+                    <p class="font-semibold">Databases</p>
+                    <span class="text-xs text-gray-400">SQL, MongoDB</span>
+                </div>
+                <!-- Skill Card Template 3 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="3">
+                    <i data-lucide="layout-grid" class="w-8 h-8 accent-color mx-auto mb-2"></i>
+                    <p class="font-semibold">Web Dev</p>
+                    <span class="text-xs text-gray-400">React, Next.js</span>
+                </div>
+                <!-- Skill Card Template 4 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="4">
+                    <i data-lucide="git-branch" class="w-8 h-8 accent-color mx-auto mb-2"></i>
+                    <p class="font-semibold">DevOps</p>
+                    <span class="text-xs text-gray-400">Git, Docker, CI/CD</span>
+                </div>
+                <!-- Skill Card Template 5 --><div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="5">
+                    <i data-lucide="trending-up" class="w-8 h-8 accent-color mx-auto mb-2"></i>
+                    <p class="font-semibold">ML/AI</p>
+                    <span class="text-xs text-gray-400">TensorFlow, PyTorch</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section - Individual cards will be animated with a stagger --><section id="projects" class="py-24 border-t border-accent/10">
+            <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">Featured Projects</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+
+                <!-- Project Card 1 --><div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="1">
+                    <div>
+                        <h4 class="text-xl font-bold accent-color mb-2">E-commerce Backend Service</h4>
+                        <p class="text-gray-400 mb-4 text-sm">A robust RESTful API for a scalable e-commerce platform, handling user authentication, product catalog, and order processing.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Node.js</span>
+                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">MongoDB</span>
+                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Express</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="#" target="_blank" class="flex items-center text-sm accent-color hover:underline">
+                            <i data-lucide="external-link" class="w-4 h-4 mr-1"></i>
+                            Live Demo
+                        </a>
+                        <a href="#" target="_blank" class="flex items-center text-sm text-gray-400 hover:text-white transition duration-150">
+                            <i data-lucide="github" class="w-4 h-4 mr-1"></i>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 --><div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="2">
+                    <div>
+                        <h4 class="text-xl font-bold accent-color mb-2">Predictive ML Model for Stocks</h4>
+                        <p class="text-gray-400 mb-4 text-sm">Developed a time-series model using LSTM networks to forecast short-term stock price movements based on historical data.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Python</span>
+                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">TensorFlow</span>
+                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Pandas</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="#" target="_blank" class="flex items-center text-sm accent-color hover:underline">
+                            <i data-lucide="external-link" class="w-4 h-4 mr-1"></i>
+                            Report
+                        </a>
+                        <a href="#" target="_blank" class="flex items-center text-sm text-gray-400 hover:text-white transition duration-150">
+                            <i data-lucide="github" class="w-4 h-4 mr-1"></i>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 --><div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="3">
+                    <div>
+                        <h4 class="text-xl font-bold accent-color mb-2">Real-time Chat Application</h4>
+                        <p class="text-gray-400 mb-4 text-sm">A single-page application built for instant messaging, featuring real-time updates and user presence indicators using web sockets.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">React</span>
+                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Socket.IO</span>
+                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Tailwind CSS</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="#" target="_blank" class="flex items-center text-sm accent-color hover:underline">
+                            <i data-lucide="external-link" class="w-4 h-4 mr-1"></i>
+                            Live Demo
+                        </a>
+                        <a href="#" target="_blank" class="flex items-center text-sm text-gray-400 hover:text-white transition duration-150">
+                            <i data-lucide="github" class="w-4 h-4 mr-1"></i>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section - Individual element will be animated --><section id="contact" class="py-24 border-t border-accent/10">
+            <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">Get In Touch</h3>
+            <div class="bg-[#1e0d29] p-8 md:p-12 rounded-xl max-w-2xl mx-auto card-hover-effect border border-accent/20 opacity-0" data-delay="1">
+                <p class="text-lg text-gray-300 mb-8 text-center">
+                    I'm currently seeking a Summer 2026 internship. Feel free to connect regarding development, research, or collaboration!
+                </p>
+
+                <div class="grid sm:grid-cols-3 gap-6 text-center">
+                    <a href="mailto:23103093@iubat.edu" class="hover:text-accent transition duration-150">
+                        <i data-lucide="mail" class="w-8 h-8 mx-auto mb-2"></i>
+                        <span class="block text-sm">Email</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/talha100/" target="_blank" class="hover:text-accent transition duration-150">
+                        <i data-lucide="linkedin" class="w-8 h-8 mx-auto mb-2"></i>
+                        <span class="block text-sm">LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/yourusername" target="_blank" class="hover:text-accent transition duration-150">
+                        <i data-lucide="github" class="w-8 h-8 mx-auto mb-2"></i>
+                        <span class="block text-sm">GitHub</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer --><footer class="mt-20 py-8 border-t border-accent/10 text-center text-gray-500 text-sm">
+        <p>Built with <i data-lucide="heart" class="w-4 h-4 inline text-red-500"></i> | &copy; 2025 Md Abu Talha. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu, CV Modal, and Scroll Animations -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // --- CV Download Modal Logic ---
+        const cvModal = document.getElementById('cv-modal');
+
+        function openModal() {
+            cvModal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            cvModal.classList.add('hidden');
+        }
+
+        // --- Mobile Menu Logic ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function closeMobileMenu() {
+            // Hide the menu after clicking a link
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        // --- Smooth Scroll Logic for all internal links ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- New Scroll Animation Logic (Staggered Intersection Observer) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Target all elements that have the data-delay attribute
+            const elementsToAnimate = document.querySelectorAll('[data-delay]');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const delayIndex = parseInt(target.getAttribute('data-delay') || '0');
+
+                        // Calculate the delay in seconds (0.1s per index)
+                        const delay = delayIndex * 0.1;
+
+                        // Set the calculated delay
+                        target.style.animationDelay = `${delay}s`;
+
+                        // Trigger the animation
+                        target.classList.remove('opacity-0');
+                        target.classList.add('animated-entry');
+
+                        // Stop observing once animated
+                        observer.unobserve(target);
+                    }
+                });
+            }, {
+                // Ensure the animation triggers when the element is just entering the viewport
+                root: null,
+                rootMargin: '0px 0px -10% 0px',
+                threshold: 0.05
+            });
+
+            elementsToAnimate.forEach(element => {
+                observer.observe(element);
+            });
+        });
+
+    </script>
+</body>
+</html>
