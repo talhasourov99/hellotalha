@@ -1,449 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Md Abu Talha - CSE Student Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Fira+Sans:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Custom styles for a smooth, dark theme with trending purple gradient */
-        body {
-            font-family: 'Fira Sans', sans-serif; /* Clean, modern font for body text */
-            background: linear-gradient(135deg, #1f0a2e, #100518); /* Deep purple gradient */
-            color: #c9d1d9; /* Light text color */
-            scroll-behavior: smooth;
-        }
+<meta charset="UTF-8">
+<title>Date Request</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
 
-        /* Apply Playfair Display to general headings */
-        h1, h3 {
-            font-family: 'Playfair Display', serif;
-        }
+  :root{
+    --pink: #d6356f;
+    --pink-light: #f7d9e3;
+    --bg1: #f6e0ec;
+    --bg2: #e6e6fa;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    font-family: Georgia, 'Times New Roman', serif;
+    background: linear-gradient(135deg, var(--bg1), var(--bg2));
+    overflow:hidden;
+  }
+  #app{
+    position:relative;
+    width:100%; height:100vh;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card{
+    background:#fff;
+    border-radius: 22px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    padding: 40px 36px;
+    width: 360px;
+    max-width: 90vw;
+    text-align:center;
+    position:relative;
+    animation: pop .35s ease;
+  }
+  @keyframes pop{
+    from{ transform: scale(.85); opacity:0; }
+    to{ transform: scale(1); opacity:1; }
+  }
+  h1{
+    color: var(--pink);
+    font-size: 26px;
+    margin: 0 0 28px;
+    line-height:1.35;
+  }
+  .btn-row{
+    position: relative;
+    height: 60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .yes-btn{
+    background: var(--pink);
+    color:#fff;
+    border:none;
+    border-radius: 30px;
+    padding: 16px 0;
+    width:100%;
+    font-size: 18px;
+    font-weight:bold;
+    font-family: inherit;
+    cursor:pointer;
+    transition: transform .25s ease;
+  }
+  .yes-btn:hover{ transform: scale(1.05); }
+  .no-btn{
+    position:absolute;
+    background:#fff;
+    color:#666;
+    border:1px solid #ddd;
+    border-radius: 30px;
+    padding: 10px 18px;
+    font-size: 15px;
+    font-family: inherit;
+    cursor:pointer;
+    transition: top .15s ease, left .15s ease, opacity .2s ease, transform .2s ease;
+  }
 
-        /* Apply Syncopate specifically to the name (h2) for a unique, high-tech look */
-        h2 {
-            font-family: 'Syncopate', sans-serif;
-            text-transform: uppercase; /* Ensure it's always striking */
-        }
+  /* step 2: food grid */
+  .food-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+    margin: 8px 0 24px;
+  }
+  .food-option{
+    border:2px solid #eee;
+    border-radius: 14px;
+    padding: 18px 8px;
+    cursor:pointer;
+    transition: border-color .2s, background .2s, transform .15s;
+    user-select:none;
+  }
+  .food-option .emoji{ font-size: 32px; display:block; margin-bottom:6px; }
+  .food-option .label{ color:#444; font-size:14px; font-family: Arial, sans-serif; }
+  .food-option:hover{ transform: translateY(-2px); }
+  .food-option.selected{
+    border-color: var(--pink);
+    background: var(--pink-light);
+  }
+  .next-btn{
+    background: var(--pink);
+    color:#fff;
+    border:none;
+    border-radius: 30px;
+    padding: 14px 0;
+    width:100%;
+    font-size: 17px;
+    font-weight:bold;
+    font-family: inherit;
+    cursor:pointer;
+    opacity:0.4;
+    pointer-events:none;
+    transition: opacity .2s;
+  }
+  .next-btn.active{ opacity:1; pointer-events:auto; }
+  .subtitle{ font-size:34px; margin-bottom:4px; }
 
+  /* step 3: confirmation */
+  .yay{ color: var(--pink); font-size: 30px; margin: 0 0 18px; }
+  .details{
+    background: var(--pink-light);
+    border-radius: 14px;
+    padding: 16px 18px;
+    text-align:left;
+    font-family: Arial, sans-serif;
+    color:#444;
+    margin-bottom: 20px;
+  }
+  .details div{ margin: 6px 0; font-size: 15px; }
+  .closing{
+    color: var(--pink);
+    font-style: italic;
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+  .footnote{
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color:#999;
+    font-style: italic;
+  }
 
-        /* New Accent color for highlights and buttons (vibrant purple) */
-        .accent-color {
-            color: #a756f1; /* Trending vibrant purple */
-        }
+  /* step 3: date/time picker */
+  .field{
+    text-align:left;
+    margin-bottom: 18px;
+    font-family: Arial, sans-serif;
+  }
+  .field label{
+    display:block;
+    font-size: 13px;
+    color:#888;
+    margin-bottom: 6px;
+  }
+  .field input{
+    width:100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1.5px solid #eee;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    color:#444;
+    outline:none;
+    transition: border-color .2s;
+  }
+  .field input:focus{ border-color: var(--pink); }
 
-        .bg-accent {
-            background-color: #a756f1;
-        }
-
-        .hover\:bg-accent-dark:hover {
-            background-color: #8c42d3; /* Slightly darker purple for hover */
-        }
-
-        .border-accent {
-            border-color: #a756f1;
-        }
-
-        /* Smooth card transition for projects/skills */
-        .card-hover-effect {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            background-color: #1e0d29; /* Slightly lighter dark background, blending with purple */
-        }
-
-        .card-hover-effect:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(167, 86, 241, 0.2); /* Soft purple glow on hover */
-        }
-
-        /* Typing effect for the headline */
-        @keyframes typing {
-            from {
-                width: 0
-            }
-
-            to {
-                width: 100%
-            }
-        }
-
-        @keyframes blink-caret {
-            from, to {
-                border-color: transparent
-            }
-
-            50% {
-                border-color: #a756f1;
-            }
-            /* Blinking cursor with new accent color */
-        }
-
-        .typing-text {
-            overflow: hidden;
-            border-right: .15em solid #a756f1; /* The typewriter cursor with new accent color */
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: .1em;
-            /* Animation speed decreased for a smoother look in the given space */
-            animation: typing 3.5s steps(40, end) infinite alternate, blink-caret .75s step-end infinite;
-        }
-
-        /* Text Gradient for the name */
-        .hero-title {
-            background: linear-gradient(90deg, #ffffff, #a756f1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
-        }
-
-        /* --- Animation for Scroll-in Effect (Staggered Entry) --- */
-        @keyframes fade-in-up {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animated-entry {
-            animation: fade-in-up 0.8s ease-out forwards;
-        }
-
-        /* FIX: Force the typing text to be contained on extremely small screens */
-        @media (max-width: 480px) {
-            .typing-text {
-                /* Allows the text to fit better on tiny screens without horizontal scroll */
-                font-size: 1.25rem; /* Reduced from 2xl/3xl */
-            }
-        }
-    </style>
+  /* confetti */
+  .confetti{
+    position:fixed;
+    top:-10px;
+    font-size: 18px;
+    pointer-events:none;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform: translateY(110vh) rotate(360deg); opacity: 0.9; }
+  }
+</style>
 </head>
-<body class="selection:bg-accent selection:text-black">
+<body>
 
-    <div id="cv-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
-        <div class="bg-[#1e0d29] p-8 rounded-xl shadow-2xl w-full max-w-sm border border-accent/30 transform transition-all duration-300 scale-100">
-            <div class="text-xl font-bold mb-4 flex items-center accent-color">
-                <i data-lucide="download" class="w-6 h-6 mr-2"></i>
-                Download Initiated
-            </div>
-            <p class="text-gray-300 mb-6">
-                Thank you for your interest! A mock PDF/text file would be generated here in a real application.
-                For this demo, we'll just confirm the action.
-            </p>
-            <button onclick="closeModal()" class="w-full py-2 bg-accent text-gray-900 font-semibold rounded-lg hover:bg-accent-dark transition duration-200">
-                Close
-            </button>
-        </div>
+<div id="app"></div>
+
+<script>
+/* ====== EDIT THIS TO CUSTOMIZE ====== */
+const CONFIG = {
+  question: "🌸 Will you go on a date with me? 🌸",
+  closingMessage: "I'm so excited to see you!🌷✨",
+  footnote: "(Me,Talha, gave NO every chance to escape, because some answers just aren't allowed to exist.)",
+  foods: [
+    { emoji: "🍕", label: "Pizza" },
+    { emoji: "🥘", label: "Biriyani"},
+    { emoji: "🍔", label: "Burgers"},
+    { emoji: "🍝", label: "Pasta" },
+    { emoji: "🥩", label: "Beef" },
+    { emoji: "🍗", label: "Fried Chicken"}
+  ]
+};
+
+const app = document.getElementById('app');
+let chosenFood = null;
+let chosenDate = null;
+let chosenTime = null;
+
+function renderStep1(){
+  app.innerHTML = `
+    <div class="card">
+      <h1>${CONFIG.question}</h1>
+      <div class="btn-row" id="btnRow">
+        <button class="yes-btn" id="yesBtn">YES 🤍</button>
+        <button class="no-btn" id="noBtn" style="right:8px;">NO 😏</button>
+      </div>
     </div>
+  `;
 
-    <header class="sticky top-0 z-40 bg-[#100518]/90 backdrop-blur-sm shadow-lg border-b border-accent/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-extrabold accent-color tracking-wide">Md Abu Talha.dev</h1>
-            <nav class="hidden md:flex space-x-8 text-sm font-medium">
-                <a href="#about" class="hover:accent-color transition duration-150">About</a>
-                <a href="#skills" class="hover:accent-color transition duration-150">Skills</a>
-                <a href="#projects" class="hover:accent-color transition duration-150">Projects</a>
-                <a href="#contact" class="hover:accent-color transition duration-150">Contact</a>
-            </nav>
-            <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-[#1e0d29]">
-                <i data-lucide="menu" class="w-6 h-6 accent-color"></i>
-            </button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-[#1e0d29] border-t border-accent/10 py-2">
-            <a href="#about" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">About</a>
-            <a href="#skills" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">Skills</a>
-            <a href="#projects" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">Projects</a>
-            <a href="#contact" onclick="closeMobileMenu()" class="block px-4 py-2 hover:bg-[#2c1a3b]">Contact</a>
-        </div>
-    </header>
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const btnRow = document.getElementById('btnRow');
+  let dodgeCount = 0;
+  const maxDodges = 8;
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  function dodge(cursorX, cursorY){
+    if(dodgeCount >= maxDodges){
+      noBtn.style.opacity = '0';
+      noBtn.style.pointerEvents = 'none';
+      return;
+    }
+    dodgeCount++;
+    const rowRect = btnRow.getBoundingClientRect();
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
+    const maxX = Math.max(rowRect.width - btnW, 10);
+    const maxY = 200;
 
-        <section id="hero" class="pt-24 pb-32 flex flex-col-reverse md:flex-row items-center justify-between min-h-screen">
-            <div class="md:w-3/5 text-center md:text-left mt-16 md:mt-0">
-                <p class="text-xl text-gray-400 mb-4">Hello, I'm</p>
-                <h3 class="text-6xl sm:text-7xl font-black mb-4 leading-tight hero-title whitespace-nowrap">Md Abu Talha</h3>
-                <div class="typing-text h-10 md:h-8 mb-8 text-2xl sm:text-3xl font-medium accent-color max-w-full">
-                    A Computer Science & Engineering Student
-                </div>
+    // Try a few candidate spots, pick the one farthest from the cursor.
+    let bestX = 0, bestY = 0, bestDist = -1;
+    for(let i=0; i<6; i++){
+      const candX = Math.random() * maxX;
+      const candY = (Math.random() - 0.5) * maxY;
+      const absX = rowRect.left + candX;
+      const absY = rowRect.top + rowRect.height/2 + candY;
+      const dist = (cursorX != null) ? Math.hypot(absX - cursorX, absY - cursorY) : 0;
+      if(dist > bestDist){ bestDist = dist; bestX = candX; bestY = candY; }
+    }
 
-                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <a href="https://drive.google.com/file/d/1kji9Hgd4ofrzv-z7JKljFz80LT18f3mv/view?usp=sharing"
-                        target="_blank"
-                        download="Md_Abu_Talha_CV.pdf"
-                        class="w-full sm:w-auto flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-gray-900 bg-accent hover:bg-accent-dark transition duration-300 shadow-xl shadow-accent/30">
-                        <i data-lucide="download" class="w-5 h-5 mr-2"></i>
-                        Download CV
-                    </a>
+    noBtn.style.left = bestX + 'px';
+    noBtn.style.right = 'auto';
+    noBtn.style.top = (btnRow.offsetHeight/2 - btnH/2 + bestY) + 'px';
 
-                    <a href="#projects" class="w-full sm:w-auto flex items-center justify-center px-8 py-3 border border-accent text-base font-medium rounded-lg accent-color hover:bg-accent/10 transition duration-300">
-                        View Projects
-                    </a>
-                </div>
-            </div>
-            <div class="md:w-2/5 flex justify-center">
-                <div class="w-64 h-64 bg-[#1e0d29] border-4 border-accent rounded-full flex items-center justify-center overflow-hidden shadow-2xl">
-                    <img src="https://raw.githubusercontent.com/talhasourov99/hellotalha/refs/heads/main/3-removebg-preview.png"
-                            alt="Md Abu Talha Profile Picture"
-                            class="w-full h-full object-cover">
-                </div>
-            </div>
-        </section>
+    const scale = Math.max(1 - dodgeCount * 0.1, 0.35);
+    const opacity = Math.max(1 - dodgeCount * 0.1, 0.15);
+    noBtn.style.transform = `scale(${scale})`;
+    noBtn.style.opacity = opacity;
 
-        <section id="about" class="py-24 border-t border-accent/10">
-            <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">About Me</h3>
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="bg-[#1e0d29] p-8 rounded-xl card-hover-effect opacity-0" data-delay="1">
-                    <p class="text-lg leading-relaxed text-gray-300">
-                        I am a highly motivated Computer Science and Engineering student at a reputable university, specializing in scalable software development and efficient algorithm design. My academic journey has equipped me with a strong foundation in Data Structures, Operating Systems, and Database Management.
-                    </p>
-                    <p class="text-lg leading-relaxed text-gray-300 mt-4">
-                        I thrive on solving complex technical challenges and am constantly exploring the intersection of modern web technologies and machine learning. My goal is to leverage my skills to build impactful, user-centric solutions. I am actively looking for internship opportunities in Software Development or Data Engineering.
-                    </p>
-                </div>
-                <div class="space-y-6 text-gray-300 opacity-0" data-delay="2">
-                    <div class="flex items-center">
-                        <i data-lucide="graduation-cap" class="w-6 h-6 mr-3 accent-color"></i>
-                        <span class="font-semibold">University:</span>International University of Business Agriculture and Technology.
-                    </div>
-                    <div class="flex items-center">
-                        <i data-lucide="clock" class="w-6 h-6 mr-3 accent-color"></i>
-                        <span class="font-semibold">Expected Graduation:</span> April 2027
-                    </div>
-                    <div class="flex items-center">
-                        <i data-lucide="mail" class="w-6 h-6 mr-3 accent-color"></i>
-                        <span class="font-semibold">Email:</span> 23103093@iubat.edu
-                    </div>
-                    <div class="flex items-center">
-                        <i data-lucide="map-pin" class="w-6 h-6 mr-3 accent-color"></i>
-                        <span class="font-semibold">Location:</span> Dhaka,Bangladesh.
-                    </div>
-                </div>
-            </div>
-        </section>
+    if(dodgeCount >= maxDodges){
+      noBtn.style.pointerEvents = 'none';
+    }
+  }
 
-        <section id="skills" class="py-24 border-t border-accent/10">
-            <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">Technical Skills</h3>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="1">
-                    <i data-lucide="code-square" class="w-8 h-8 accent-color mx-auto mb-2"></i>
-                    <p class="font-semibold">Python / C++</p>
-                    <span class="text-xs text-gray-400">DSA & Backend</span>
-                </div>
-                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="2">
-                    <i data-lucide="server" class="w-8 h-8 accent-color mx-auto mb-2"></i>
-                    <p class="font-semibold">Databases</p>
-                    <span class="text-xs text-gray-400">SQL, MongoDB</span>
-                </div>
-                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="3">
-                    <i data-lucide="layout-grid" class="w-8 h-8 accent-color mx-auto mb-2"></i>
-                    <p class="font-semibold">Web Dev</p>
-                    <span class="text-xs text-gray-400">React, Next.js</span>
-                </div>
-                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="4">
-                    <i data-lucide="git-branch" class="w-8 h-8 accent-color mx-auto mb-2"></i>
-                    <p class="font-semibold">DevOps</p>
-                    <span class="text-xs text-gray-400">Git, Docker, CI/CD</span>
-                </div>
-                <div class="p-4 rounded-xl text-center card-hover-effect border border-accent/20 opacity-0" data-delay="5">
-                    <i data-lucide="trending-up" class="w-8 h-8 accent-color mx-auto mb-2"></i>
-                    <p class="font-semibold">ML/AI</p>
-                    <span class="text-xs text-gray-400">TensorFlow, PyTorch</span>
-                </div>
-            </div>
-        </section>
+  // Proactively dodge based on cursor proximity, not just hover/click,
+  // so fast mouse movements can't "catch" the button before a hover event fires.
+  const dodgeRadius = 90;
+  function onMouseMove(e){
+    if(dodgeCount >= maxDodges) return;
+    const rect = noBtn.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+    if(dist < dodgeRadius) dodge(e.clientX, e.clientY);
+  }
+  document.addEventListener('mousemove', onMouseMove);
+  noBtn.addEventListener('mouseenter', (e) => dodge(e.clientX, e.clientY));
+  noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); dodge(); });
+  noBtn.addEventListener('click', (e) => { e.preventDefault(); dodge(); });
 
-        <section id="projects" class="py-24 border-t border-accent/10">
-            <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">Featured Projects</h3>
-            <div class="grid md:grid-cols-3 gap-8">
+  yesBtn.addEventListener('click', () => {
+    document.removeEventListener('mousemove', onMouseMove);
+    renderStep2();
+  });
+}
 
-                <div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="1">
-                    <div>
-                        <h4 class="text-xl font-bold accent-color mb-2">E-commerce Backend Service</h4>
-                        <p class="text-gray-400 mb-4 text-sm">A robust RESTful API for a scalable e-commerce platform, handling user authentication, product catalog, and order processing.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Node.js</span>
-                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">MongoDB</span>
-                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Express</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <a href="#" target="_blank" class="flex items-center text-sm accent-color hover:underline">
-                            <i data-lucide="external-link" class="w-4 h-4 mr-1"></i>
-                            Live Demo
-                        </a>
-                        <a href="#" target="_blank" class="flex items-center text-sm text-gray-400 hover:text-white transition duration-150">
-                            <i data-lucide="github" class="w-4 h-4 mr-1"></i>
-                            GitHub
-                        </a>
-                    </div>
-                </div>
+function renderStep2(){
+  app.innerHTML = `
+    <div class="card">
+      <div class="subtitle">🍽️✨</div>
+      <h1>What are we feeling?</h1>
+      <div class="food-grid" id="foodGrid"></div>
+      <button class="next-btn" id="nextBtn">Next 💕</button>
+    </div>
+  `;
 
-                <div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="2">
-                    <div>
-                        <h4 class="text-xl font-bold accent-color mb-2">Predictive ML Model for Stocks</h4>
-                        <p class="text-gray-400 mb-4 text-sm">Developed a time-series model using LSTM networks to forecast short-term stock price movements based on historical data.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Python</span>
-                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">TensorFlow</span>
-                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Pandas</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <a href="#" target="_blank" class="flex items-center text-sm accent-color hover:underline">
-                            <i data-lucide="external-link" class="w-4 h-4 mr-1"></i>
-                            Report
-                        </a>
-                        <a href="#" target="_blank" class="flex items-center text-sm text-gray-400 hover:text-white transition duration-150">
-                            <i data-lucide="github" class="w-4 h-4 mr-1"></i>
-                            GitHub
-                        </a>
-                    </div>
-                </div>
+  const grid = document.getElementById('foodGrid');
+  CONFIG.foods.forEach(food => {
+    const el = document.createElement('div');
+    el.className = 'food-option';
+    el.innerHTML = `<span class="emoji">${food.emoji}</span><span class="label">${food.label}</span>`;
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.food-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      chosenFood = food.label;
+      document.getElementById('nextBtn').classList.add('active');
+    });
+    grid.appendChild(el);
+  });
 
-                <div class="bg-[#1e0d29] p-6 rounded-xl card-hover-effect flex flex-col justify-between border border-accent/20 opacity-0" data-delay="3">
-                    <div>
-                        <h4 class="text-xl font-bold accent-color mb-2">Real-time Chat Application</h4>
-                        <p class="text-gray-400 mb-4 text-sm">A single-page application built for instant messaging, featuring real-time updates and user presence indicators using web sockets.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">React</span>
-                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Socket.IO</span>
-                            <span class="text-xs font-medium bg-[#2c1a3b] text-gray-300 px-3 py-1 rounded-full">Tailwind CSS</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <a href="#" target="_blank" class="flex items-center text-sm accent-color hover:underline">
-                            <i data-lucide="external-link" class="w-4 h-4 mr-1"></i>
-                            Live Demo
-                        </a>
-                        <a href="#" target="_blank" class="flex items-center text-sm text-gray-400 hover:text-white transition duration-150">
-                            <i data-lucide="github" class="w-4 h-4 mr-1"></i>
-                            GitHub
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if(chosenFood) renderStep3();
+  });
+}
 
-        <section id="contact" class="py-24 border-t border-accent/10">
-            <h3 class="text-4xl font-bold mb-12 text-center text-white opacity-0" data-delay="0">Get In Touch</h3>
-            <div class="bg-[#1e0d29] p-8 md:p-12 rounded-xl max-w-2xl mx-auto card-hover-effect border border-accent/20 opacity-0" data-delay="1">
-                <p class="text-lg text-gray-300 mb-8 text-center">
-                    I'm currently seeking a Summer 2026 internship. Feel free to connect regarding development, research, or collaboration!
-                </p>
+function renderStep3(){
+  app.innerHTML = `
+    <div class="card">
+      <div class="subtitle">📅💖</div>
+      <h1>When works for you?</h1>
+      <div class="field">
+        <label for="dateInput">Pick a date</label>
+        <input type="date" id="dateInput">
+      </div>
+      <div class="field">
+        <label for="timeInput">Pick a time</label>
+        <input type="time" id="timeInput">
+      </div>
+      <button class="next-btn" id="nextBtn">Confirm 💕</button>
+    </div>
+  `;
 
-                <div class="grid sm:grid-cols-3 gap-6 text-center">
-                    <a href="mailto:23103093@iubat.edu" class="hover:text-accent transition duration-150">
-                        <i data-lucide="mail" class="w-8 h-8 mx-auto mb-2"></i>
-                        <span class="block text-sm">Email</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/talha100/" target="_blank" class="hover:text-accent transition duration-150">
-                        <i data-lucide="linkedin" class="w-8 h-8 mx-auto mb-2"></i>
-                        <span class="block text-sm">LinkedIn</span>
-                    </a>
-                    <a href="https://github.com/yourusername" target="_blank" class="hover:text-accent transition duration-150">
-                        <i data-lucide="github" class="w-8 h-8 mx-auto mb-2"></i>
-                        <span class="block text-sm">GitHub</span>
-                    </a>
-                </div>
+  const dateInput = document.getElementById('dateInput');
+  const timeInput = document.getElementById('timeInput');
+  const nextBtn = document.getElementById('nextBtn');
 
-            </div>
-        </section>
+  function checkReady(){
+    if(dateInput.value && timeInput.value) nextBtn.classList.add('active');
+    else nextBtn.classList.remove('active');
+  }
+  dateInput.addEventListener('change', checkReady);
+  timeInput.addEventListener('change', checkReady);
 
-    </main>
+  nextBtn.addEventListener('click', () => {
+    if(!dateInput.value || !timeInput.value) return;
+    const dateObj = new Date(dateInput.value + 'T00:00:00');
+    chosenDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    const [h, m] = timeInput.value.split(':').map(Number);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12 = h % 12 === 0 ? 12 : h % 12;
+    chosenTime = `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+    renderStep4();
+  });
+}
 
-    <footer class="mt-20 py-8 border-t border-accent/10 text-center text-gray-500 text-sm">
-        <p>Built with <i data-lucide="heart" class="w-4 h-4 inline text-red-500"></i> | &copy; 2025 Md Abu Talha. All Rights Reserved.</p>
-    </footer>
+function renderStep4(){
+  app.innerHTML = `
+    <div class="card" id="photoCard">
+      <div class="yay">YAY!! 💕</div>
+      <div class="details">
+        <div>📅 ${chosenDate}</div>
+        <div>⏰ ${chosenTime}</div>
+        <div>🍽️ ${chosenFood}</div>
+      </div>
+      <div class="closing">${CONFIG.closingMessage}</div>
+      <div class="footnote">${CONFIG.footnote}</div>
+    </div>
+  `;
+  launchConfetti();
+}
 
-    <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
+function launchConfetti(){
+  const emojis = ['🌸','💕','✨','🌷'];
+  for(let i=0; i<40; i++){
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      c.style.left = Math.random()*100 + 'vw';
+      c.style.animationDuration = (2.5 + Math.random()*2) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }, i*60);
+  }
+}
 
-        // --- CV Download Modal Logic ---
-        const cvModal = document.getElementById('cv-modal');
-
-        function openModal() {
-            cvModal.classList.remove('hidden');
-        }
-
-        function closeModal() {
-            cvModal.classList.add('hidden');
-        }
-
-        // --- Mobile Menu Logic ---
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        function closeMobileMenu() {
-            // Hide the menu after clicking a link
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        }
-
-        // --- Smooth Scroll Logic for all internal links ---
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // --- New Scroll Animation Logic (Staggered Intersection Observer) ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Target all elements that have the data-delay attribute
-            const elementsToAnimate = document.querySelectorAll('[data-delay]');
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const target = entry.target;
-                        const delayIndex = parseInt(target.getAttribute('data-delay') || '0');
-
-                        // Calculate the delay in seconds (0.1s per index)
-                        const delay = delayIndex * 0.1;
-
-                        // Set the calculated delay
-                        target.style.animationDelay = `${delay}s`;
-
-                        // Trigger the animation
-                        target.classList.remove('opacity-0');
-                        target.classList.add('animated-entry');
-
-                        // Stop observing once animated
-                        observer.unobserve(target);
-                    }
-                });
-            }, {
-                // Ensure the animation triggers when the element is just entering the viewport
-                root: null,
-                rootMargin: '0px 0px -10% 0px',
-                threshold: 0.05
-            });
-
-            elementsToAnimate.forEach(element => {
-                observer.observe(element);
-            });
-        });
-
-    </script>
+renderStep1();
+</script>
 </body>
-
 </html>
-
-
-
