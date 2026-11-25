@@ -1,0 +1,9 @@
+export const achievements = [
+  { number: "01", label: "INDIVIDUAL AWARD · 2026", title: "Best Questioner — Prime Bank", description: "Individual recognition during Prime Bank’s Empowering Youth: Engaging & Inspiring Youth in Banking initiative, focused on financial inclusion. 22 May 2026.", year: "2026" },
+  { number: "02", label: "CASE COMPETITION · 2026", title: "Top 24 Finalist — DataDevelop Prize", description: "Selected among 1,000+ students from 12 universities for the Bangladesh competition. Also received a certificate of participation.", year: "2026" },
+  { number: "03", label: "NATIONAL QUALIFICATION", title: "NSDA Level 4 — Android Mobile Application Development", description: "360-hour National Skills Certificate under the Bangladesh National Qualification Framework. Assessment included written, aptitude and viva components.", year: "2026" },
+  { number: "04", label: "TECHNOLOGY WORKSHOP", title: "UNESCO–Infinix COG Labs Workshop", description: "Certificate of participation at Hotel Sarina, Dhaka, on 24 January 2026.", year: "2026" },
+  { number: "05", label: "CERTIFICATE OF EXCELLENCE", title: "Turn Ideas into Impact — Grameenphone Academy", description: "Completed 18 October 2026.", year: "2026" },
+  { number: "06", label: "COMMUNITY & FINANCIAL INCLUSION", title: "Prime Bank — Certificate of Appreciation", description: "Participation in the Empowering Youth financial inclusion initiative, 22 May 2026.", year: "2026" },
+  { number: "07", label: "VOLUNTEERING", title: "Charles & Jones Limited", description: "Volunteer recognition dated 4 June 2025. Certificate issued in the name Talha.", year: "2025" },
+];
